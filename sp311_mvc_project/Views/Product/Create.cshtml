@@ -1,0 +1,38 @@
+﻿@model CreateProductVM
+
+<div class="d-flex flex-column align-items-center border w-50 m-auto p-2">
+    <h1>Створення товару</h1>
+    <div class="w-100 p-3">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Назва</label>
+                <input asp-for="Product.Name" type="text" class="form-control" placeholder="Введіть назву">
+            </div>
+            <div class="form-group">
+                <label for="description">Опи</label>
+                <input asp-for="Product.Description" type="text" class="form-control" placeholder="Введіть опис">
+            </div>
+            <div class="form-group">
+                <label for="price">Ціна</label>
+                <input asp-for="Product.Price" type="number" class="form-control" placeholder="Введіть ціну">
+            </div>
+            <div class="form-group">
+                <label for="amount">Кількість</label>
+                <input asp-for="Product.Amount" type="number" class="form-control" placeholder="Введіть кількість">
+            </div>
+            <div class="form-group">
+                <label for="image">Зображення</label>
+                <input asp-for="File" type="file" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="category">Категорія</label>
+                <select class="form-select" asp-for="Product.CategoryId" asp-items="@Model.Categories">
+                </select>
+            </div>
+            <div class="d-flex justify-content-center">
+                <input type="submit" value="Створити" class="btn btn-success flex-grow-1 m-3" />
+                <a asp-action="Index" class="btn btn-dark flex-grow-1 m-3">Повернутися</a>
+            </div>
+        </form>
+    </div>
+</div>
