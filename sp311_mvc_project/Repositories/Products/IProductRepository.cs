@@ -9,5 +9,6 @@ namespace sp311_mvc_project.Repositories.Products
         Task DeleteAsync(string id);
         Task<Product?> FindByIdAsync(string id);
         IQueryable<Product> GetAll();
+        IQueryable<Product> GetByCategory(string category);
     }
 }

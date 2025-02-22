@@ -1,8 +1,48 @@
-﻿@{
+﻿@model HomeProductListVM
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section>
+    <div class="d-flex justify-content-center">
+        <a href="@Url.Action("Index")" class="btn btn-success mx-1">Всі товари</a>
+        @foreach(var category in Model.Categories)
+        {
+            <a href="@Url.Action("Index", new { category = category.Name })" class="btn btn-success mx-1">@category.Name</a>
+        }
+    </div>
+    <div class="container py-5">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-6 col-lg-3 mb-4 mb-md-2 home-product-card">
+                    <div class="card h-100 shadow p-2">
+                        <a asp-action="Details" asp-route-id="@product.Id">
+                            <img width="200" src="~/images/products/@(product.Image ?? "defaultProductImage.png")"
+                                 class="card-img-top mt-2" alt="@product.Name" />
+                        </a>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <p class="small">
+                                    <a href="@Url.Action("Index", new { category = product.Category?.Name })" class="text-muted">@product.Category?.Name</a>
+                                </p>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-3">
+                                <a style="color: black" class="text-decoration-none" asp-action="Details" asp-route-id="@product.Id">
+                                    <h6 class="mb-0 me-2">@product.Name</h6>
+                                </a>
+                                <h5 class="text-dark mb-0">@product.Price₴</h5>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <p class="text-muted mb-0">В наявності: <span class="fw-bold">@product.Amount</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
