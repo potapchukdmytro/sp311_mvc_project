@@ -53,6 +53,15 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+          selector: '#tinymceTextArea',
+          license_key: 'gpl|1uqtscayd6yoj8amtn58u7jtdveb35cw36ksjkv62p74a8qt',
+          plugins: 'image, link',
+          toolbar: "image"
+        });
+    </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
