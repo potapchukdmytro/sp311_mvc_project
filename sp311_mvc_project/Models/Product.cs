@@ -21,5 +21,8 @@ namespace sp311_mvc_project.Models
         [ForeignKey("Category")]
         public string? CategoryId { get; set; }
         public Category? Category { get; set; }
+
+        [NotMapped]
+        public bool InCart { get; set; } = false;
     }
 }

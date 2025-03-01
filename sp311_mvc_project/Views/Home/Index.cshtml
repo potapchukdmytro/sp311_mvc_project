@@ -6,10 +6,10 @@
 
 <section>
     <div class="d-flex justify-content-center">
-        <a href="@Url.Action("Index")" class="btn btn-success mx-1">Всі товари</a>
-        @foreach(var category in Model.Categories)
+        <a href="@Url.Action("Index")" class="btn @(Model.Category == string.Empty ? "btn-success" : "btn-outline-success" )  mx-1">Всі товари</a>
+        @foreach (var category in Model.Categories)
         {
-            <a href="@Url.Action("Index", new { category = category.Name })" class="btn btn-success mx-1">@category.Name</a>
+            <a href="@Url.Action("Index", new { category = category.Name })" class="btn @(Model.Category == category.Name ? "btn-success" : "btn-outline-success" ) mx-1">@category.Name</a>
         }
     </div>
     <div class="container py-5">
@@ -20,7 +20,7 @@
                     <div class="card h-100 shadow p-2">
                         <a asp-action="Details" asp-route-id="@product.Id">
                             <img width="200" src="~/images/products/@(product.Image ?? "defaultProductImage.png")"
-                                 class="card-img-top mt-2" alt="@product.Name" />
+                            class="card-img-top mt-2" alt="@product.Name" />
                         </a>
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -40,9 +40,52 @@
                                 <p class="text-muted mb-0">В наявності: <span class="fw-bold">@product.Amount</span></p>
                             </div>
                         </div>
+                        <div>
+                            @if(product.InCart)
+                            {
+                                <button onclick="removeFromCart('@product.Id')" class="btn btn-danger w-100">
+                                    <i style="font-size: 1.1em" class="bi bi-cart-dash-fill"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button onclick="addToCart('@product.Id')" class="btn btn-warning w-100">
+                                    <i style="font-size: 1.1em" class="bi bi-cart-plus-fill"></i>
+                                </button>
+                            }
+                        </div>
                     </div>
                 </div>
             }
         </div>
     </div>
+    @if (Model.PagesCount > 1)
+    {
+        <nav aria-label="Page navigation example" class="ms-3">
+            <ul class="pagination">
+                @if (Model.Page > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { category = Model.Category, page = Model.Page - 1 })" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                }
+                @for (int i = 1; i <= Model.PagesCount; i++)
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { category = Model.Category, page = i })">@i</a>
+                    </li>
+                }
+                @if (Model.Page < Model.PagesCount)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { category = Model.Category, page = Model.Page + 1 })" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 </section>

@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IImageService, ImageService>();
 
@@ -18,6 +19,14 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer("name=SqlServerLocal");
+});
+
+// Session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromDays(1);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
@@ -32,6 +41,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

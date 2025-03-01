@@ -31,10 +31,16 @@ namespace sp311_mvc_project.Controllers
         {
             model.Id = Guid.NewGuid().ToString();
 
-            _context.Categories.Add(model);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                _context.Categories.Add(model);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
         }
 
         public IActionResult Edit(string? id)
