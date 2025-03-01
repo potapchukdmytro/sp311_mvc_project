@@ -32,6 +32,7 @@ namespace sp311_mvc_project.Repositories.Products
         public async Task<Product?> FindByIdAsync(string id)
         {
             return await _context.Products
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 

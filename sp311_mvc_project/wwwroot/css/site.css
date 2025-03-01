@@ -67,3 +67,31 @@ body {
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
+
+.product-image {
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+    .thumbnail:hover, .thumbnail.active {
+        opacity: 1;
+    }
+
+.product-category-link {
+    text-decoration: none;
+    color: grey;
+}
+
+    .product-category-link:hover {
+        text-decoration: underline;
+        color: grey;
+    }

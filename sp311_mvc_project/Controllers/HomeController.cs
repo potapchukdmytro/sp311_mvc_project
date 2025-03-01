@@ -63,9 +63,23 @@ namespace sp311_mvc_project.Controllers
         }
 
         [ActionName("Details")]
-        public IActionResult ProductDetails(string? id)
+        public async Task<IActionResult> ProductDetails(string? id)
         {
-            return View("ProductDetails");
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("Index");
+
+            var model = await _productRepository.FindByIdAsync(id);
+
+            if (model == null)
+                return RedirectToAction("Index");
+
+            var cartItems = HttpContext.Session.Get<IEnumerable<CartItemVM>>(SessionSettings.SessionCartKey);
+            if (cartItems != null)
+            {
+                model.InCart = cartItems.Select(c => c.ProductId).Contains(model.Id);
+            }
+
+            return View("ProductDetails", model);
         }
 
         public IActionResult Privacy()
