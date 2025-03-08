@@ -12,6 +12,7 @@ namespace sp311_mvc_project.Models
         [MaxLength]
         public string? Description { get; set; }
         [Range(0, double.MaxValue)]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         [Range(0, int.MaxValue)]
         public int Amount { get; set; }

@@ -38,11 +38,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Категорії</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SetAdmin">Зробити адміном</a>
+                        </li>
                         <li class="nav-item flex-grow-1 text-end">
-                            <i class="bi bi-cart-fill header-basket__icon">
-                                <span class="header-basket__quan">@(HttpContextAccessor.HttpContext == null ? 0 
-                                    : HttpContextAccessor.HttpContext.Session.GetCartItemsCount())</span>
-                            </i>
+                            <div class="d-flex justify-content-end">
+                                <partial name="_LoginPartial" />
+                                <div>
+                                    <i class="bi bi-cart-fill header-basket__icon">
+                                        <span class="header-basket__quan">
+                                            @(HttpContextAccessor.HttpContext == null ? 0
+                                                : HttpContextAccessor.HttpContext.Session.GetCartItemsCount())
+                                        </span>
+                                    </i>
+                                </div>
+                            </div>
+                            
                         </li>
                     </ul>
                 </div>

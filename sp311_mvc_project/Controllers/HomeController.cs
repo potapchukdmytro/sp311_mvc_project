@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sp311_mvc_project.Data;
@@ -14,13 +16,17 @@ namespace sp311_mvc_project.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductRepository _productRepository;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, IProductRepository productRepository, AppDbContext context)
+        public HomeController(ILogger<HomeController> logger, IProductRepository productRepository, AppDbContext context, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
         {
             _logger = logger;
             _productRepository = productRepository;
             _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index(string? category, int page)
@@ -96,6 +102,40 @@ namespace sp311_mvc_project.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> SetAdmin()
+        {
+            if(User.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if(user == null)
+            {
+                return RedirectToAction("Index");
+            }
+            
+            if(!await _roleManager.RoleExistsAsync("admin"))
+            {
+                var adminRole = new IdentityRole
+                {
+                    Name = "admin"
+                };
+                await _roleManager.CreateAsync(adminRole);
+            }
+
+            if(!await _userManager.IsInRoleAsync(user, "admin"))
+            {
+                await _userManager.AddToRoleAsync(user, "admin");
+            }
+
+
+            return RedirectToAction("Index");
         }
     }
 }
