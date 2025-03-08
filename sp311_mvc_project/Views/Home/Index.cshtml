@@ -14,9 +14,9 @@
     </div>
     <div class="container py-5">
         <div class="row">
-            @foreach (var product in Model.Products)
+            @foreach (var product in Model.Products.OrderByDescending(p => p.Price).ToArray())
             {
-                <div class="col-md-6 col-lg-3 mb-4 mb-md-2 home-product-card">
+                <div style="@(product.Amount <= 0 ? "opacity: .4;" : "")" class="col-md-6 col-lg-3 mb-4 mb-md-2 home-product-card">
                     <div class="card h-100 shadow p-2">
                         <a asp-action="Details" asp-route-id="@product.Id">
                             <img width="200" src="~/images/products/@(product.Image ?? "defaultProductImage.png")"
@@ -37,21 +37,31 @@
                             </div>
 
                             <div class="d-flex justify-content-between mb-2">
-                                <p class="text-muted mb-0">В наявності: <span class="fw-bold">@product.Amount</span></p>
+                                @if(product.Amount > 0)
+                                {
+                                    <p class="text-muted mb-0">В наявності: <span class="fw-bold">@product.Amount</span></p>
+                                }
+                                else
+                                {
+                                    <p class="text-muted mb-0">Немає в наявності</p>
+                                }
                             </div>
                         </div>
                         <div>
-                            @if(product.InCart)
+                            @if (product.Amount > 0)
                             {
-                                <button onclick="removeFromCart('@product.Id')" class="btn btn-danger w-100">
-                                    <i style="font-size: 1.1em" class="bi bi-cart-dash-fill"></i>
-                                </button>
-                            }
-                            else
-                            {
-                                <button onclick="addToCart('@product.Id')" class="btn btn-warning w-100">
-                                    <i style="font-size: 1.1em" class="bi bi-cart-plus-fill"></i>
-                                </button>
+                                @if (product.InCart)
+                                {
+                                    <button onclick="removeFromCart('@product.Id')" class="btn btn-danger w-100">
+                                        <i style="font-size: 1.1em" class="bi bi-cart-dash-fill"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button onclick="addToCart('@product.Id')" class="btn btn-warning w-100">
+                                        <i style="font-size: 1.1em" class="bi bi-cart-plus-fill"></i>
+                                    </button>
+                                }
                             }
                         </div>
                     </div>

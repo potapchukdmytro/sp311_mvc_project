@@ -82,16 +82,16 @@ body {
     transition: opacity 0.3s ease;
 }
 
-    .thumbnail:hover, .thumbnail.active {
-        opacity: 1;
-    }
+.thumbnail:hover, .thumbnail.active {
+    opacity: 1;
+}
 
 .product-category-link {
     text-decoration: none;
     color: grey;
 }
 
-    .product-category-link:hover {
-        text-decoration: underline;
-        color: grey;
-    }
+.product-category-link:hover {
+    text-decoration: underline;
+    color: grey;
+}

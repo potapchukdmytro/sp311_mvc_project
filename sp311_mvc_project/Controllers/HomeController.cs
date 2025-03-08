@@ -37,6 +37,10 @@ namespace sp311_mvc_project.Controllers
                 ? _productRepository.GetAll().Include(p => p.Category)
                 : _productRepository.GetByCategory(category);
 
+            // sorting -->
+            products = products.OrderByDescending(p => p.Amount);
+            // <-- sorting
+
             // pagination -->
             int pageSize = 8;
             int totalCount = products.Count();
@@ -58,8 +62,8 @@ namespace sp311_mvc_project.Controllers
 
             var viewModel = new HomeProductListVM
             {
-                Products = products,
-                Categories = categories,
+                Products = products.ToList(),
+                Categories = categories.ToList(),
                 Category = category ?? "",
                 PagesCount = pagesCount,
                 Page = page

@@ -56,5 +56,15 @@ namespace sp311_mvc_project.Repositories.Products
             _context.Products.Update(model);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateRangeAsync(IEnumerable<Product> models)
+        {
+            foreach (var model in models)
+            {
+                _context.Products.Update(model);
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

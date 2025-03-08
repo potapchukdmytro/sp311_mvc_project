@@ -39,17 +39,24 @@
                     <label class="btn btn-outline-primary" for="blue">Blue</label>
                 </div>
             </div>
-            @if (!Model.InCart)
+            @if (Model.Amount > 0)
             {
-                <button onclick="addToCart('@Model.Id')" class="btn btn-primary btn-lg mb-3 me-2">
-                    <i class="bi bi-cart-plus"></i> Додати у кошик
-                </button>
+                @if (!Model.InCart)
+                {
+                    <button onclick="addToCart('@Model.Id')" class="btn btn-primary btn-lg mb-3 me-2">
+                        <i class="bi bi-cart-plus"></i> Додати у кошик
+                    </button>
+                }
+                else
+                {
+                    <button onclick="removeFromCart('@Model.Id')" class="btn btn-danger btn-lg mb-3 me-2">
+                        <i class="bi bi-cart-dash"></i> Видалити з кошику
+                    </button>
+                }
             }
             else
             {
-                <button onclick="removeFromCart('@Model.Id')" class="btn btn-danger btn-lg mb-3 me-2">
-                    <i class="bi bi-cart-dash"></i> Видалити з кошику
-                </button>
+                <h3>Немає в наявності</h3>
             }
             <button class="btn btn-outline-secondary btn-lg mb-3">
                 <i class="bi bi-heart"></i> Add to Wishlist

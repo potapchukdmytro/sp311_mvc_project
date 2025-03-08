@@ -25,5 +25,7 @@ namespace sp311_mvc_project.Models
 
         [NotMapped]
         public bool InCart { get; set; } = false;
+        [NotMapped]
+        public int QuantityInCart { get; set; } = 1;
     }
 }

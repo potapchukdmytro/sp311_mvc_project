@@ -45,15 +45,17 @@
                             <div class="d-flex justify-content-end">
                                 <partial name="_LoginPartial" />
                                 <div>
-                                    <i class="bi bi-cart-fill header-basket__icon">
-                                        <span class="header-basket__quan">
-                                            @(HttpContextAccessor.HttpContext == null ? 0
-                                                : HttpContextAccessor.HttpContext.Session.GetCartItemsCount())
-                                        </span>
-                                    </i>
+                                    <a asp-controller="Cart" asp-action="Index" style="color: black">
+                                        <i class="bi bi-cart-fill header-basket__icon">
+                                            <span class="header-basket__quan">
+                                                @(HttpContextAccessor.HttpContext == null ? 0
+                                                    : HttpContextAccessor.HttpContext.Session.GetCartItemsCount())
+                                            </span>
+                                        </i>
+                                    </a>
                                 </div>
                             </div>
-                            
+
                         </li>
                     </ul>
                 </div>
